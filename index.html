@@ -1,76 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>~/startpage</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>~/startpage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Ubuntu:wght@300;400&display=swap">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <div class="left-container">
+  <main class="container">
+    <section class="left">
+      <div class="clock">
+        <div id="time">--:--</div>
+        <div id="date"></div>
+      </div>
+      <button class="gif" id="gif" type="button" title="Click for another picture">
+        <img id="gif-img" alt="Retro animation" width="450" height="400">
+      </button>
+    </section>
 
+    <section class="right">
+      <p class="prompt"><span id="greeting">hello</span>, <span class="accent" id="name"></span>
+        <span class="path">&gt; cd ~/<span class="cursor">_</span></span></p>
 
+      <form id="search" class="search" autocomplete="off">
+        <input id="q" type="text" spellcheck="false" aria-label="Search"
+               placeholder="search, or try: vt 8.8.8.8 · att T1059 · gh iocscope">
+        <div id="hint" class="hint" aria-live="polite"></div>
+      </form>
 
-  </head>
-<body onLoad='getDate()' style="text-align: center">
-    
-    <h1 id="Date"></h1>
+      <nav id="bookmarks" class="bookmarks"></nav>
 
-            <div class="gif">
-                <img class='vapor' src="clouds.gif" width="450px" height="400px" />
-            </div>
-        </div>
+      <p class="keys"><kbd>/</kbd> search &nbsp;·&nbsp; <kbd>?</kbd> shortcuts &nbsp;·&nbsp; <kbd>esc</kbd> clear</p>
+      <div id="help" class="help" hidden></div>
+    </section>
+  </main>
 
-        <div class="right-container">
-            <div class="head">
-              <p>&gt; cd ~/<span class="blinking">_</span></p>
-            </div>
-
-            <div class="bookmarks">
-                <div class="category">
-                    <div class="links">
-                        <li class="title">daily</li>
-                        <li><a href="https://gmail.com">gmail</a></li>
-                        <li><a href="https://mail.protonmail.com">protonmail</a></li>
-                        <li><a href="https://linkedin.com">youtube</a></li>
-                        <li><a href="https://reddit.com/">reddit</a></li>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="links">
-                        <li class="title">dev</li>
-                        <li><a href="https://github.com/">github</a></li>
-                        <li><a href="https://stackoverflow.com/">stackoverflow</a></li>
-                        <li><a href="https://distrowatch.com/">distrowatch</a></li>
-                        <li><a href="https://devdocs.io/">devdocs</a></li>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="links">
-                        <li class="title"><a style="color: #EADBB2" href="https://reddit.com">reddit</a></li>
-                        <li><a href="https://reddit.com/r/programming/">r/programming</a></li>
-                        <li><a href="https://reddit.com/r/archlinux/">r/archlinux</a></li>
-                        <li><a href="https://reddit.com/r/unixporn/">r/unixporn</a></li>
-                        <li><a href="https://reddit.com/r/linuxmasterrace/">r/linuxmr</a></li>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="links">
-                        <li class="title">fun</li>
-                        <li><a href="https://monkeytype.com/">monkeytype</a></li>
-                        <li><a href="https://twitter.com/">twitter</a></li>
-                        <li><a href="https://twitch.tv/">twitch</a></li>
-                        <li><a href="https://netflix.com/">netflix</a></li>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>

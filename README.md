@@ -1,25 +1,54 @@
 # startpage
-My startpage, edited from github.com/kencx
 
-# How to use?
+A minimal, keyboard-friendly browser start page: clock, quick search with lookup shortcuts, and
+bookmarks, next to a retro gif you can click to switch.
 
-1. git clone this repo
-2. copy the path to the index.html file
-3. set the path as your default startpage in your desired browser
+![screenshot](screenshot.png)
 
-# Customization
+**Live:** https://c4c0nym.github.io/
 
-### Image(s)
-i have included a few vaporwave/retro styled gifs in this repo, you can edit it on the line <b>22</b> in the index.html the ```src="clouds.gif"``` to something like ```src="plane.gif"``` or your own image/gif
+## Features
 
-### URLs
-you can edit all of the URLs to your desired, starting on line **44** in ```index.html```
-<br> **Example:** <br>
-**line 45:** ```<li><a href="https://github.com/">github</a></li>``` <br >can be changed to <br> **line 45:** ```<li><a href="https://yoururl.com/">your url</a></li>```
+- **Clock and greeting** that follow your local time.
+- **Search box.** Press <kbd>/</kbd> from anywhere to focus it. Plain text goes to DuckDuckGo,
+  and anything that looks like an address (`github.com/c4c0nym`) is opened directly.
+- **Shortcuts:** type a prefix and then your query. Press <kbd>?</kbd> on the page for the full list.
 
-### Categories
+  | Prefix | Goes to | Example |
+  |---|---|---|
+  | `vt` | VirusTotal | `vt 44d88612fea8a8f36de82e1278abb02f` |
+  | `sh` | Shodan | `sh apache country:NL` |
+  | `abuse` | AbuseIPDB | `abuse 185.220.101.1` |
+  | `gn` | GreyNoise | `gn 1.2.3.4` |
+  | `uh` | URLhaus | `uh evil.example` |
+  | `crt` | crt.sh (certificate transparency) | `crt %.example.com` |
+  | `att` | MITRE ATT&CK technique | `att T1059` |
+  | `cve` | NVD | `cve CVE-2024-3400` |
+  | `g` / `gh` / `yt` / `r` | Google / GitHub / YouTube / Reddit | `gh iocscope` |
 
-i think you get it, starting on line **44** you can change the names of the categories etc. etc. i believe you're not dumb and understand
+- **Pictures:** click the gif to cycle through the ones in this repo. Your choice is remembered.
+- **Responsive.** It works on narrow windows and respects "reduce motion".
 
-# Screenshot
-![image](https://user-images.githubusercontent.com/76164598/170824479-5918fe82-18df-4549-8b20-c2b1595a27d0.png)
+## Use it
+
+Either set **https://c4c0nym.github.io/** as your home or new-tab page, or run it
+locally:
+
+1. `git clone https://github.com/c4c0nym/c4c0nym.github.io`
+2. Set the full path to `index.html` (e.g. `file:///C:/startpage/index.html`) as your browser's start page.
+
+## Customize
+
+Everything lives in **`config.js`**:
+
+- `bookmarks`: columns of `["label", "url"]` pairs.
+- `shortcuts`: search prefixes. `%s` is replaced by what you type.
+- `gifs`: the pictures to cycle through. Drop your own file in the folder and add it here.
+- `search`: the default search engine.
+
+Colours are CSS variables at the top of `style.css`.
+
+## Credits
+
+Originally based on [kencx/startpage](https://github.com/kencx/startpage), via
+[nwvh](https://github.com/nwvh/). The gifs are by their respective artists.
