@@ -1,13 +1,15 @@
-/* Catppuccin Mocha-inspired palette */
+/* Holo palette */
 :root {
-  --bg: #1e1e2e;
-  --surface: #262637;
-  --border: #3a3a52;
-  --fg: #d9e0ee;
-  --muted: #8f9191;
-  --accent: #ff79c6;
-  --accent-soft: #f5c2e7;
-  --title: #eadbb2;
+  --bg: #14181c;            /* Holo Graphite */
+  --surface: #232a31;       /* Holo Gunmetal */
+  --muted: #8a97a3;         /* Holo Steel */
+  --accent: #00e5ff;        /* Holo Cyan */
+  --accent-soft: #9b8cff;   /* Holo Violet */
+  --title: #7dffd0;         /* Holo Mint */
+  /* not in the palette: body text and hairline borders, derived from it */
+  --fg: #e6edf3;
+  --border: #38424c;
+  --glow: rgba(0, 229, 255, .22);
   --radius: 12px;
 }
 
@@ -46,16 +48,18 @@ html, body {
 
 .gif {
   padding: 0;
-  border: 2px solid var(--accent);
+  border: 2px solid transparent;
   border-radius: var(--radius);
-  background: var(--surface);
+  /* iridescent border: cyan, violet, mint */
+  background: linear-gradient(var(--surface), var(--surface)) padding-box,
+              linear-gradient(135deg, var(--accent), var(--accent-soft), var(--title)) border-box;
   overflow: hidden;
   cursor: pointer;
   width: min(450px, 86vw);
   aspect-ratio: 9 / 8;
   transition: transform .2s ease, box-shadow .2s ease;
 }
-.gif:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 121, 198, .18); }
+.gif:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--glow); }
 .gif:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 4px; }
 .gif img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
@@ -90,8 +94,8 @@ html, body {
   outline: none;
   transition: border-color .15s ease;
 }
-.search input::placeholder { color: #6c6c84; }
-.search input:focus { border-color: var(--accent); }
+.search input::placeholder { color: var(--muted); opacity: .7; }
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
 .hint {
   min-height: 18px;
   margin-top: 6px;
@@ -119,7 +123,7 @@ a { color: var(--muted); text-decoration: none; transition: color .12s ease, pad
 a:visited { color: var(--accent-soft); }
 a:hover, a:focus-visible { color: var(--accent); padding-left: 4px; outline: none; }
 
-.keys { margin: 0; font-size: 12px; color: #6c6c84; }
+.keys { margin: 0; font-size: 12px; color: var(--muted); }
 kbd {
   display: inline-block;
   min-width: 18px;

@@ -9,7 +9,7 @@ bookmarks, next to a retro gif you can click to switch.
 
 ## Features
 
-- **Clock and greeting** that follow your local time.
+- **Clock and greeting** that follow your local time, on a 24-hour clock.
 - **Search box.** Press <kbd>/</kbd> from anywhere to focus it. Plain text goes to DuckDuckGo,
   and anything that looks like an address (`github.com/c4c0nym`) is opened directly.
 - **Shortcuts:** type a prefix and then your query. Press <kbd>?</kbd> on the page for the full list.
@@ -46,7 +46,7 @@ Everything lives in **`config.js`**:
 - `gifs`: the pictures to cycle through. Drop your own file in the folder and add it here.
 - `search`: the default search engine.
 
-Colours are CSS variables at the top of `style.css`.
+Colours are CSS variables at the top of `style.css` (the Holo palette: graphite, gunmetal and steel, with cyan, violet and mint accents).
 
 ## Credits
 

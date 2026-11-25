@@ -8,7 +8,7 @@
   // ---- clock & greeting
   function tick() {
     const now = new Date();
-    $("time").textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    $("time").textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
     $("date").textContent = now.toLocaleDateString([], { weekday: "long", day: "numeric", month: "long" });
     const h = now.getHours();
     $("greeting").textContent =
