@@ -146,6 +146,16 @@ kbd {
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+.help .sep {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font: 400 11px "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--title);
+}
 .help[hidden] { display: none; }
 
 @media (prefers-reduced-motion: reduce) {

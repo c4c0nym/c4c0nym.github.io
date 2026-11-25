@@ -9,9 +9,24 @@ const CONFIG = {
   // Default search: DuckDuckGo. Anything that looks like a URL is opened directly instead.
   search: "https://duckduckgo.com/?q=",
 
+  // DuckDuckGo bangs shown in the shortcut menu (press ?). They are sent to DuckDuckGo as typed,
+  // so "!w vaporwave" opens Wikipedia through DuckDuckGo. Add any bang you like; the name is only a label.
+  ddgBangs: {
+    w:    "Wikipedia",
+    a:    "Amazon",
+    gi:   "Google Images",
+    maps: "Google Maps",
+    so:   "Stack Overflow",
+    mdn:  "MDN Web Docs",
+    npm:  "npm",
+    pypi: "PyPI",
+    imdb: "IMDb",
+    wa:   "Wolfram Alpha",
+  },
+
   // Type "<prefix> <text>" in the search box, e.g. "vt 8.8.8.8" or "att T1059".
   // Every prefix also works as a bang, before or after the text: "!g cats", "cats !g", "!b weather".
-  // Bangs that are not listed here (e.g. "!w", "!a") are passed on to DuckDuckGo, which knows thousands.
+  // Bangs that are not listed here are passed on to DuckDuckGo, which knows thousands.
   // %s is replaced by the (URL-encoded) text.
   shortcuts: {
     g:     { name: "Google",        url: "https://www.google.com/search?q=%s" },

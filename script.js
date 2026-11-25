@@ -59,13 +59,19 @@
     if (/^!\w+$/.test(first) && find(first, true)) return { sc: find(first, true), query: words.slice(1).join(" ") };
     if (words.length > 1 && /^!\w+$/.test(last) && find(last, true)) return { sc: find(last, true), query: words.slice(0, -1).join(" ") };
     if (find(first, false)) return { sc: find(first, false), query: words.slice(1).join(" ") };
+    const dd = (w) => /^!\w+$/.test(w) && CONFIG.ddgBangs[w.slice(1).toLowerCase()];
+    if (dd(first)) return { ddg: dd(first), query: words.slice(1).join(" ") };
+    if (words.length > 1 && dd(last)) return { ddg: dd(last), query: words.slice(0, -1).join(" ") };
     return { sc: null, query: text };
   }
 
   function resolve(raw) {
     const text = raw.trim();
     if (!text) return null;
-    const { sc, query } = parse(text);
+    const { sc, ddg, query } = parse(text);
+    if (ddg && query) {
+      return { label: `${ddg} via DuckDuckGo: ${query}`, url: CONFIG.search + encodeURIComponent(text) };
+    }
     if (sc && query) {
       return { label: `${sc.name}: ${query}`,
                url: sc.url.replace("%s", encodeURIComponent(query)) };
@@ -79,8 +85,9 @@
   q.addEventListener("input", () => {
     const text = q.value.trim();
     const r = resolve(text);
-    const { sc, query } = text ? parse(text) : {};
-    $("hint").textContent = r ? (sc && !query ? `${sc.name} …` : `↵ ${r.label}`) : "";
+    const { sc, ddg, query } = text ? parse(text) : {};
+    const named = sc ? sc.name : ddg;
+    $("hint").textContent = r ? (named && !query ? `${named} …` : `↵ ${r.label}`) : "";
   });
   $("search").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -95,6 +102,17 @@
     const kbd = document.createElement("kbd");
     kbd.textContent = "!" + key;
     span.append(kbd, ` ${sc.name}`);
+    help.append(span);
+  }
+  const sep = document.createElement("span");
+  sep.className = "sep";
+  sep.textContent = "via DuckDuckGo";
+  help.append(sep);
+  for (const [key, name] of Object.entries(CONFIG.ddgBangs)) {
+    const span = document.createElement("span");
+    const kbd = document.createElement("kbd");
+    kbd.textContent = "!" + key;
+    span.append(kbd, ` ${name}`);
     help.append(span);
   }
 

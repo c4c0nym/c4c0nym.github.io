@@ -12,7 +12,7 @@ bookmarks, next to a retro gif you can click to switch.
 - **Clock and greeting** that follow your local time, on a 24-hour clock.
 - **Search box.** Press <kbd>/</kbd> from anywhere to focus it. Plain text goes to DuckDuckGo,
   and anything that looks like an address (`github.com/c4c0nym`) is opened directly.
-- **Shortcuts and bangs:** type a prefix and then your query, with or without a `!`, before or after the text: `g cats`, `!g cats` and `cats !g` all search Google. Press <kbd>?</kbd> on the page for the full list. Bangs that are not in the list (`!w`, `!a`, ...) are passed on to DuckDuckGo, which supports thousands.
+- **Shortcuts and bangs:** type a prefix and then your query, with or without a `!`, before or after the text: `g cats`, `!g cats` and `cats !g` all search Google. Press <kbd>?</kbd> on the page for the full list. The menu also lists a set of DuckDuckGo bangs (`!w` Wikipedia, `!a` Amazon, `!so` Stack Overflow, ...). Any other bang is passed on to DuckDuckGo too, which supports thousands. Edit `ddgBangs` in `config.js` to change the list.
 
   | Prefix | Goes to | Example |
   |---|---|---|
