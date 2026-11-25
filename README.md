@@ -27,8 +27,22 @@ bookmarks, next to a retro gif you can click to switch.
   | `g` / `b` | Google / Bing | `!g cats`, `!b weather` |
   | `gh` / `yt` / `r` | GitHub / YouTube / Reddit | `gh iocscope` |
 
+- **Widgets** under the search box:
+  - **Weather** for where you are. It asks for your location only when you click **Use my location** (or when the browser already allows it), and falls back to a city search if you decline.
+  - **Time zones:** up to four, 24-hour times with the zone offset. Use ✎ to add or remove them; type a city (`Tokyo`) or a zone (`Europe/Paris`).
+  - **Pomodoro timer:** focus and break modes, − / + to change the length, a ring that fills as time passes, a short beep at the end and the countdown in the tab title.
+  - **Checklist:** add, tick, edit (✎ or double-click) and delete items. Everything is stored in your browser only.
 - **Pictures:** click the gif to cycle through the ones in this repo. Your choice is remembered.
 - **Responsive.** It works on narrow windows and respects "reduce motion".
+
+## Privacy
+
+The page has no backend and no tracking. Checklist items, time zones and timer lengths stay in your
+browser's `localStorage`. The weather widget is the one part that talks to other services, only
+after you allow it to locate you: your coordinates, rounded to about 1 km, go to
+[Open-Meteo](https://open-meteo.com/) for the forecast and to
+[BigDataCloud](https://www.bigdatacloud.com/) to turn them into a place name. A typed city goes to
+Open-Meteo's geocoder. Nothing is sent before that, and the last result is cached locally for 15 minutes.
 
 ## Use it
 
@@ -46,6 +60,7 @@ Everything lives in **`config.js`**:
 - `shortcuts`: search prefixes. `%s` is replaced by what you type.
 - `gifs`: the pictures to cycle through. Drop your own file in the folder and add it here.
 - `search`: the default search engine.
+- `widgets`: temperature unit, default time zones (up to four) and timer lengths. Changes you make on the page are saved in your browser and take precedence.
 
 Colours are CSS variables at the top of `style.css` (the Holo palette: graphite, gunmetal and steel, with cyan, violet and mint accents).
 

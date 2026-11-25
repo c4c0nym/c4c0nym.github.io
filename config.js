@@ -44,6 +44,14 @@ const CONFIG = {
     cve:   { name: "NVD",           url: "https://nvd.nist.gov/vuln/detail/%s" },
   },
 
+  // Widgets under the search box. Settings you change on the page (time zones, timer lengths,
+  // checklist) are saved in this browser and win over these defaults.
+  widgets: {
+    units: "celsius",                                              // or "fahrenheit"
+    timezones: ["Europe/Amsterdam", "UTC", "America/New_York", "Asia/Tokyo"],   // up to 4, IANA names
+    pomodoro: { focus: 25, break: 5 },                             // minutes
+  },
+
   bookmarks: [
     {
       title: "daily",
