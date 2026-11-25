@@ -5,6 +5,10 @@ bookmarks, next to a retro gif you can click to switch.
 
 ![screenshot](screenshot.png)
 
+The widgets start minimized. Opened up:
+
+![widgets opened](screenshot-widgets.png)
+
 **Live:** https://c4c0nym.github.io/
 
 ## Features
@@ -27,7 +31,8 @@ bookmarks, next to a retro gif you can click to switch.
   | `g` / `b` | Google / Bing | `!g cats`, `!b weather` |
   | `gh` / `yt` / `r` | GitHub / YouTube / Reddit | `gh iocscope` |
 
-- **Widgets** under the search box:
+- **Your name:** click the name after the greeting to change it. It is saved in your browser; clear the field to go back to the default from `config.js`.
+- **Widgets** under the search box. They start minimized as a slim bar with one line each (temperature and place, the first time zone, the timer, open checklist items). Click a bar to open the widget, click **–** in its header to fold it again; the choice is remembered per widget:
   - **Weather** for where you are. It asks for your location only when you click **Use my location** (or when the browser already allows it), and falls back to a city search if you decline.
   - **Time zones:** up to four, 24-hour times with the zone offset. Use ✎ to add or remove them; type a city (`Tokyo`) or a zone (`Europe/Paris`).
   - **Pomodoro timer:** focus and break modes, − / + to change the length, a ring that fills as time passes, a short beep at the end and the countdown in the tab title.

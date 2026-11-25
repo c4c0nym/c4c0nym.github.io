@@ -25,7 +25,7 @@ html, body {
 }
 
 .container {
-  min-height: calc(100vh - 290px);
+  min-height: calc(100vh - 96px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,9 +168,10 @@ kbd {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
+  align-items: start;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 24px 40px;
+  padding: 0 24px 28px;
 }
 .card {
   min-height: 236px;
@@ -179,6 +180,7 @@ kbd {
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+.head-actions { display: inline-flex; align-items: center; gap: 2px; }
 .card-head { display: flex; align-items: center; justify-content: space-between; min-height: 28px; margin-bottom: 10px; }
 .card-title { font: 400 12px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
 .muted { color: var(--muted); }
@@ -273,3 +275,41 @@ button { font: inherit; color: inherit; }
 .todo-edit { flex: 1; }
 .todo-actions { display: inline-flex; opacity: .35; transition: opacity .12s ease; }
 .todo:hover .todo-actions, .todo:focus-within .todo-actions { opacity: 1; }
+
+/* ---- minimized widgets: one slim bar each */
+.card:not(.open) { min-height: 0; padding: 0; }
+.mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+  color: var(--fg);
+  cursor: pointer;
+}
+.mini:hover, .mini:focus-visible { background: rgba(255, 255, 255, .03); outline: none; }
+.mini:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.mini-label { flex: none; font: 400 11px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+.mini-val { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 14px "JetBrains Mono", monospace; text-align: right; font-variant-numeric: tabular-nums; }
+.chev { flex: none; color: var(--muted); font-size: 12px; }
+.mini:hover .chev, .mini:focus-visible .chev { color: var(--accent); }
+
+/* ---- editable name */
+.name-btn, .name-input {
+  font: inherit;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  border-bottom: 1px dashed transparent;
+  padding: 0;
+  margin: 0;
+}
+.name-btn { cursor: text; }
+.name-btn:hover, .name-btn:focus-visible { border-bottom-color: var(--accent); outline: none; }
+.name-btn::after { content: " ✎"; font-size: .6em; opacity: 0; transition: opacity .12s ease; }
+.name-btn:hover::after, .name-btn:focus-visible::after { opacity: .6; }
+.name-input { border-bottom: 1px solid var(--accent); outline: none; min-width: 3ch; }

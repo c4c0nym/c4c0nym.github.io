@@ -14,7 +14,43 @@
     $("greeting").textContent =
       h < 5 ? "still up" : h < 12 ? "good morning" : h < 18 ? "good afternoon" : "good evening";
   }
-  $("name").textContent = CONFIG.name;
+  // ---- name: click to change, saved in this browser (empty = back to the default)
+  const NAME_MAX = 24;
+  const nameEl = $("name");
+  const showName = () => { nameEl.textContent = store.get("startpage.name") || CONFIG.name; };
+  nameEl.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "name-input";
+    input.maxLength = NAME_MAX;
+    input.value = nameEl.textContent;
+    input.spellcheck = false;
+    input.setAttribute("aria-label", "Your name");
+    const fit = () => { input.style.width = Math.max(3, input.value.length + 1) + "ch"; };
+    let done = false;
+    const finish = (save) => {
+      if (done) return;
+      done = true;
+      if (save) {
+        const v = input.value.trim().slice(0, NAME_MAX);
+        if (v && v !== CONFIG.name) store.set("startpage.name", v); else store.set("startpage.name", "");
+      }
+      input.replaceWith(nameEl);
+      showName();
+      nameEl.focus();
+    };
+    input.addEventListener("input", fit);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); finish(true); }
+      else if (e.key === "Escape") { e.stopPropagation(); finish(false); }
+    });
+    input.addEventListener("blur", () => finish(true));
+    nameEl.replaceWith(input);
+    fit();
+    input.focus();
+    input.select();
+  });
+  showName();
   tick();
   setInterval(tick, 1000);
 
@@ -118,7 +154,9 @@
 
   // ---- keyboard
   document.addEventListener("keydown", (e) => {
-    const typing = document.activeElement === q;
+    // any text field counts: otherwise "/" and "?" could not be typed into the widgets or the name box
+    const a = document.activeElement;
+    const typing = !!a && (a.tagName === "TEXTAREA" || (a.tagName === "INPUT" && !/^(checkbox|radio|button)$/.test(a.type)));
     if (e.key === "/" && !typing) { e.preventDefault(); q.focus(); }
     else if (e.key === "?" && !typing) { help.hidden = !help.hidden; }
     else if (e.key === "Escape") { q.value = ""; $("hint").textContent = ""; q.blur(); help.hidden = true; }

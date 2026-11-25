@@ -26,6 +26,44 @@
   const svg = (markup) => { const t = document.createElement("template"); t.innerHTML = markup.trim(); return t.content.firstChild; };
   const svgPart = (markup) => svg('<svg xmlns="http://www.w3.org/2000/svg">' + markup + "</svg>").firstChild;
 
+  /* ================= minimize ================= */
+  // Every widget starts as a slim bar with one line of information. Click the bar to open the
+  // widget, click – in its header to fold it again. The choice is remembered per widget.
+  const pendingMini = {};
+  function setMini(id, text) {
+    pendingMini[id] = text;
+    const el = document.querySelector("#" + id + " .mini-val");
+    if (el) el.textContent = text;
+  }
+  function collapsible(id, title, short = title) {
+    const root = $(id);
+    const state = store.get("startpage.widgets", {});
+    const body = h("div", { class: "card-body", id: id + "-body" }, [...root.childNodes]);
+    let head = body.querySelector(".card-head");
+    if (!head) { head = h("div", { class: "card-head" }, h("span", { class: "card-title", text: title })); body.prepend(head); }
+    const minBtn = h("button", { class: "icon-btn", type: "button", "aria-label": "Minimize " + title, title: "Minimize", text: "–" });
+    head.append(h("span", { class: "head-actions" }, [...head.children].slice(1), minBtn));
+    const mini = h("button", { class: "mini", type: "button", "aria-controls": id + "-body" },
+      h("span", { class: "mini-label", text: short }),
+      h("span", { class: "mini-val", text: pendingMini[id] || "" }),
+      h("span", { class: "chev", "aria-hidden": "true", text: "▾" }));
+    root.append(mini, body);
+    const set = (open, remember) => {
+      root.classList.toggle("open", open);
+      body.hidden = !open;
+      mini.hidden = open;
+      mini.setAttribute("aria-expanded", String(open));
+      if (remember) { const s = store.get("startpage.widgets", {}); s[id] = open; store.set("startpage.widgets", s); }
+    };
+    mini.addEventListener("click", () => {
+      set(true, true);
+      const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      root.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "nearest" });
+    });
+    minBtn.addEventListener("click", () => { set(false, true); mini.focus(); });
+    set(state[id] === true, false);
+  }
+
   /* ================= weather ================= */
   const WMO = [
     [[0], "☀️", "clear", "🌙"],
@@ -60,6 +98,7 @@
     function render(d) {
       place.textContent = d.name || "Weather";
       const { icon, label } = describe(d.code, d.isDay);
+      setMini("w-weather", `${icon} ${Math.round(d.temp)}° ${d.name || ""}`.trim());
       body.replaceChildren(
         h("div", { class: "wx-main" },
           h("div", { class: "wx-icon", "aria-hidden": "true", text: icon }),
@@ -127,7 +166,7 @@
       try { state = (await navigator.permissions.query({ name: "geolocation" })).state; } catch { /* unsupported */ }
       if (state === "granted") { if (!fresh) locate(); }
       else if (cached) { if (!fresh) load(cached.lat, cached.lon, cached.name).catch(() => {}); }
-      else say("Show the weather where you are.", retry());
+      else { say("Show the weather where you are.", retry()); setMini("w-weather", "set your location"); }
     })();
     setInterval(() => { const c = store.get("startpage.weather", null); if (c) load(c.lat, c.lon, c.name).catch(() => {}); }, 15 * 60 * 1000);
   }
@@ -187,11 +226,17 @@
       editBtn.setAttribute("aria-pressed", String(editing));
       if (editing && zones.length >= MAX) msg.textContent = "Four time zones is the maximum. Remove one to add another.";
       else if (!editing) msg.textContent = "";
+      summary(now);
+    }
+    // collapsed bar: the first zone plus how many more are listed
+    function summary(now) {
+      setMini("w-zones", zones.length ? `${label(zones[0])} ${clock(zones[0], now)}${zones.length > 1 ? ` +${zones.length - 1}` : ""}` : "none yet");
     }
     draw();
     setInterval(() => {
       const now = new Date();
       for (const el of list.querySelectorAll(".zone-time")) el.textContent = clock(el.dataset.zone, now);
+      summary(now);
     }, 1000);
   }
 
@@ -241,6 +286,7 @@
       minus.disabled = plus.disabled = running;
       reset.hidden = running || left === total;
       document.title = running ? `${fmt(left)} · ${mode}` : baseTitle;
+      setMini("w-pomo", `${running ? "❚❚" : "▶"} ${fmt(left)} · ${mode}`);
     }
     function beep() {
       try {
@@ -348,6 +394,8 @@
       list.replaceChildren(...items.map(row));
       if (!items.length && !adding) list.append(h("li", { class: "muted small", text: "Nothing here. Add something." }));
       clearBtn.hidden = !items.some((i) => i.done);
+      const open = items.filter((i) => !i.done).length;
+      setMini("w-todo", !items.length ? "empty" : open ? `${open} open` : "all done");
     }
     draw();
   }
@@ -356,4 +404,8 @@
   timezoneWidget();
   pomodoroWidget();
   checklistWidget();
+  collapsible("w-weather", "Weather");
+  collapsible("w-zones", "Time zones", "Time");
+  collapsible("w-pomo", "Pomodoro");
+  collapsible("w-todo", "Checklist");
 })();
