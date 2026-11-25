@@ -5,10 +5,6 @@ bookmarks, next to a retro gif you can click to switch.
 
 ![screenshot](screenshot.png)
 
-The widgets start minimized. Opened up:
-
-![widgets opened](screenshot-widgets.png)
-
 **Live:** https://c4c0nym.github.io/
 
 ## Features
