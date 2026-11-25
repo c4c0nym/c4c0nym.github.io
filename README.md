@@ -12,7 +12,7 @@ bookmarks, next to a retro gif you can click to switch.
 - **Clock and greeting** that follow your local time, on a 24-hour clock.
 - **Search box.** Press <kbd>/</kbd> from anywhere to focus it. Plain text goes to DuckDuckGo,
   and anything that looks like an address (`github.com/c4c0nym`) is opened directly.
-- **Shortcuts:** type a prefix and then your query. Press <kbd>?</kbd> on the page for the full list.
+- **Shortcuts and bangs:** type a prefix and then your query, with or without a `!`, before or after the text: `g cats`, `!g cats` and `cats !g` all search Google. Press <kbd>?</kbd> on the page for the full list. Bangs that are not in the list (`!w`, `!a`, ...) are passed on to DuckDuckGo, which supports thousands.
 
   | Prefix | Goes to | Example |
   |---|---|---|
@@ -24,7 +24,8 @@ bookmarks, next to a retro gif you can click to switch.
   | `crt` | crt.sh (certificate transparency) | `crt %.example.com` |
   | `att` | MITRE ATT&CK technique | `att T1059` |
   | `cve` | NVD | `cve CVE-2024-3400` |
-  | `g` / `gh` / `yt` / `r` | Google / GitHub / YouTube / Reddit | `gh iocscope` |
+  | `g` / `b` | Google / Bing | `!g cats`, `!b weather` |
+  | `gh` / `yt` / `r` | GitHub / YouTube / Reddit | `gh iocscope` |
 
 - **Pictures:** click the gif to cycle through the ones in this repo. Your choice is remembered.
 - **Responsive.** It works on narrow windows and respects "reduce motion".

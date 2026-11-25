@@ -50,14 +50,25 @@
   const looksLikeUrl = (s) =>
     /^https?:\/\/\S+$/i.test(s) || /^(localhost|([\w-]+\.)+[a-z]{2,})(:\d+)?(\/\S*)?$/i.test(s);
 
+  // A shortcut is "<key> <text>", "!<key> <text>" or "<text> !<key>".
+  // Unknown bangs fall through to the default search, where DuckDuckGo handles them.
+  function parse(text) {
+    const words = text.split(/\s+/);
+    const find = (w, bang) => CONFIG.shortcuts[(bang ? w.replace(/^!/, "") : w).toLowerCase()];
+    const first = words[0], last = words[words.length - 1];
+    if (/^!\w+$/.test(first) && find(first, true)) return { sc: find(first, true), query: words.slice(1).join(" ") };
+    if (words.length > 1 && /^!\w+$/.test(last) && find(last, true)) return { sc: find(last, true), query: words.slice(0, -1).join(" ") };
+    if (find(first, false)) return { sc: find(first, false), query: words.slice(1).join(" ") };
+    return { sc: null, query: text };
+  }
+
   function resolve(raw) {
     const text = raw.trim();
     if (!text) return null;
-    const [first, ...rest] = text.split(/\s+/);
-    const sc = CONFIG.shortcuts[first.toLowerCase()];
-    if (sc && rest.length) {
-      return { label: `${sc.name}: ${rest.join(" ")}`,
-               url: sc.url.replace("%s", encodeURIComponent(rest.join(" "))) };
+    const { sc, query } = parse(text);
+    if (sc && query) {
+      return { label: `${sc.name}: ${query}`,
+               url: sc.url.replace("%s", encodeURIComponent(query)) };
     }
     if (looksLikeUrl(text) && !/^\d+(\.\d+){3}$/.test(text)) {   // a bare IP is searched, not opened
       return { label: `open ${text}`, url: /^https?:\/\//i.test(text) ? text : `https://${text}` };
@@ -66,10 +77,10 @@
   }
 
   q.addEventListener("input", () => {
-    const r = resolve(q.value);
-    const [first] = q.value.trim().split(/\s+/);
-    const sc = CONFIG.shortcuts[(first || "").toLowerCase()];
-    $("hint").textContent = r ? (sc && !/\s/.test(q.value.trim()) ? `${sc.name} …` : `↵ ${r.label}`) : "";
+    const text = q.value.trim();
+    const r = resolve(text);
+    const { sc, query } = text ? parse(text) : {};
+    $("hint").textContent = r ? (sc && !query ? `${sc.name} …` : `↵ ${r.label}`) : "";
   });
   $("search").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -82,7 +93,7 @@
   for (const [key, sc] of Object.entries(CONFIG.shortcuts)) {
     const span = document.createElement("span");
     const kbd = document.createElement("kbd");
-    kbd.textContent = key;
+    kbd.textContent = "!" + key;
     span.append(kbd, ` ${sc.name}`);
     help.append(span);
   }

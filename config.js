@@ -6,13 +6,16 @@ const CONFIG = {
   // Left-hand picture. Click it on the page to cycle through these; the choice is remembered.
   gifs: ["vapor.gif", "clouds.gif", "waves.gif", "plane.gif", "bike.gif", "cat.gif", "vaporwave.gif", "rest.webp"],
 
-  // Default search. Anything that looks like a URL is opened directly instead.
+  // Default search: DuckDuckGo. Anything that looks like a URL is opened directly instead.
   search: "https://duckduckgo.com/?q=",
 
   // Type "<prefix> <text>" in the search box, e.g. "vt 8.8.8.8" or "att T1059".
+  // Every prefix also works as a bang, before or after the text: "!g cats", "cats !g", "!b weather".
+  // Bangs that are not listed here (e.g. "!w", "!a") are passed on to DuckDuckGo, which knows thousands.
   // %s is replaced by the (URL-encoded) text.
   shortcuts: {
     g:     { name: "Google",        url: "https://www.google.com/search?q=%s" },
+    b:     { name: "Bing",          url: "https://www.bing.com/search?q=%s" },
     gh:    { name: "GitHub",        url: "https://github.com/search?q=%s&type=repositories" },
     yt:    { name: "YouTube",       url: "https://www.youtube.com/results?search_query=%s" },
     r:     { name: "Reddit",        url: "https://www.reddit.com/search/?q=%s" },
